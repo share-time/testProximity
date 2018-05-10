@@ -12,9 +12,20 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        let device = UIDevice.current
+        device.isProximityMonitoringEnabled = true
+        if device.isProximityMonitoringEnabled {
+            NotificationCenter.default.addObserver(self, selector: Selector(("proximityChanged:")), name: NSNotification.Name(rawValue: "UIDeviceProximityStateDidChangeNotification"), object: device)
+        }
+    }
+    
+    func proximityChanged(notification: Notification){
+        if let device = notification.object as? UIDevice {
+            print("\(device) detected!")
+        }
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
